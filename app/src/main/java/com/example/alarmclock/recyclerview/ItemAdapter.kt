@@ -1,17 +1,19 @@
 package com.example.alarmclock.recyclerview
 
 import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.SwitchCompat
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.Switch
 import android.widget.TextView
+import com.example.alarmclock.database.Time
 import com.example.alarmclock.databinding.ItemBinding
 
 
-class ItemAdapter(val data: MutableList<Item>): RecyclerView.Adapter<ItemAdapter.ViewHolder>()  {
+class ItemAdapter(): RecyclerView.Adapter<ItemAdapter.ViewHolder>()  {
+    var data = ArrayList<Time>()
+    fun setListData(data: ArrayList<Time>){
+        this.data = data
+    }
     inner class ViewHolder(val binding: ItemBinding):RecyclerView.ViewHolder(binding.root){
         val hour: TextView = binding.time
         val loop: TextView = binding.day
@@ -25,10 +27,9 @@ class ItemAdapter(val data: MutableList<Item>): RecyclerView.Adapter<ItemAdapter
     }
 
     override fun onBindViewHolder(item: ViewHolder, position: Int) {
-        item.hour.text = data.get(position).time
+        item.hour.text = data.get(position).hour
         item.loop.text = data.get(position).repeat
-        item.switch.isChecked = data.get(position).turn
-        Log.d("Process","Đến dây")
+        item.switch.isChecked = data.get(position).turn!!
     }
 
     override fun getItemCount(): Int {
