@@ -14,6 +14,7 @@ class MainActivityViewModel(app: Application): AndroidViewModel(app) {
     }
 
     fun getAllTimesObservers():MutableLiveData<List<Time>>{
+        getAllTimes()
         return data
 
     }

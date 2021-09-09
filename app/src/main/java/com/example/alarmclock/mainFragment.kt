@@ -23,12 +23,6 @@ class mainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentMainBinding.inflate(inflater,container,false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
 
         viewModel = ViewModelProviders.of(this).get(MainActivityViewModel::class.java)
         viewModel.getAllTimesObservers().observe(this, Observer {
@@ -37,10 +31,18 @@ class mainFragment : Fragment() {
 
         })
         binding.btnAdd.setOnClickListener() {
-            val item = Time(0, "10:30", "Một lần", false)
+            val item = Time(0, "10:30", "Một lần", true)
             viewModel.insertTimes(item)
         }
         setUpRecyclerView()
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+
+
     }
     private fun setUpRecyclerView(){
         rvItem = binding.listBaothuc
