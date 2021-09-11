@@ -11,12 +11,12 @@
         android:id="@+id/btn_cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:backgroundTint="#FFFFFF"
-        android:src="@drawable/btn"
+        android:layout_marginStart="48dp"
+        android:background="@drawable/btn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lap_lai"
+        app:layout_constraintVertical_bias="0.495"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <TextView
@@ -72,6 +72,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:layout_marginEnd="12dp"
         android:text="Một lần"
         android:textStyle="italic"
         app:layout_constraintEnd_toStartOf="@+id/btn_frequently"
@@ -79,29 +80,28 @@
 
     <ImageButton
         android:id="@+id/btn_frequently"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="40dp"
-        android:backgroundTint="@android:color/white"
+        android:layout_width="39dp"
+        android:layout_height="34dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="44dp"
+        android:background="@drawable/frequently"
         android:minWidth="48dp"
         android:minHeight="48dp"
-        android:src="@drawable/frequently"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/timepicker"
-        tools:ignore="SpeakableTextPresentCheck" />
+        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
     <ImageButton
         android:id="@+id/btn_done"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="#FFFFFF"
-        android:src="@drawable/btn"
+        android:background="@drawable/btn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.514"
+        app:layout_constraintHorizontal_bias="0.575"
         app:layout_constraintStart_toEndOf="@+id/btn_cancel"
         app:layout_constraintTop_toBottomOf="@+id/frequently"
+        app:layout_constraintVertical_bias="0.495"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <TextView
