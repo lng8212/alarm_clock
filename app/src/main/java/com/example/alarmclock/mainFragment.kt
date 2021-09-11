@@ -1,16 +1,17 @@
 package com.example.alarmclock
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.alarmclock.database.Time
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation
+import androidx.recyclerview.widget.RecyclerView
 import com.example.alarmclock.databinding.FragmentMainBinding
 import com.example.alarmclock.recyclerview.ItemAdapter
+import java.time.Clock
 
 
 class mainFragment : Fragment() {
@@ -18,6 +19,7 @@ class mainFragment : Fragment() {
     private lateinit var rvItem : RecyclerView
     private lateinit var recyclerViewAdapter: ItemAdapter
     private lateinit var viewModel: MainActivityViewModel
+    private lateinit var textClock: Clock
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -31,8 +33,10 @@ class mainFragment : Fragment() {
 
         })
         binding.btnAdd.setOnClickListener() {
-            val item = Time(0, "10:30", "Một lần", true)
-            viewModel.insertTimes(item)
+            Navigation.findNavController(binding.root).navigate(R.id.action_mainFragment_to_fragment_add_clock)
+        }
+        binding.btnDemnguoc.setOnClickListener(){
+            Navigation.findNavController(binding.root).navigate(R.id.action_mainFragment_to_countDown)
         }
         setUpRecyclerView()
         return binding.root

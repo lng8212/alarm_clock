@@ -1,6 +1,6 @@
 package com.example.alarmclock.recyclerview
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Switch
@@ -14,7 +14,8 @@ class ItemAdapter(): RecyclerView.Adapter<ItemAdapter.ViewHolder>()  {
     fun setListData(data: ArrayList<Time>){
         this.data = data
     }
-    inner class ViewHolder(val binding: ItemBinding):RecyclerView.ViewHolder(binding.root){
+    inner class ViewHolder(val binding: ItemBinding):
+        RecyclerView.ViewHolder(binding.root){
         val hour: TextView = binding.time
         val loop: TextView = binding.day
         val switch: Switch = binding.turnonOff

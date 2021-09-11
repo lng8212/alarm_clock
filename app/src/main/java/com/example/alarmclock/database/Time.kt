@@ -14,5 +14,4 @@ data class Time(
     val repeat: String?,
     @ColumnInfo(name = "turn")
     val turn: Boolean?
-
 )

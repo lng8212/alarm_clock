@@ -8,5 +8,30 @@
         android:id="@+id/mainFragment"
         android:name="com.example.alarmclock.mainFragment"
         android:label="fragment_main"
-        tools:layout="@layout/fragment_main" />
-    </navigation>
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/action_mainFragment_to_fragment_add_clock"
+            app:destination="@id/fragment_add_clock" />
+        <action
+            android:id="@+id/action_mainFragment_to_countDown"
+            app:destination="@id/countDown" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragment_add_clock"
+        android:name="com.example.alarmclock.addClock"
+        android:label="fragment_add_clock"
+        tools:layout="@layout/fragment_add_clock">
+        <action
+            android:id="@+id/action_fragment_add_clock_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/countDown"
+        android:name="com.example.alarmclock.CountDown"
+        android:label="fragment_count_down"
+        tools:layout="@layout/fragment_count_down" >
+        <action
+            android:id="@+id/action_countDown_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
+</navigation>
