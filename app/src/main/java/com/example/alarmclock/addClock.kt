@@ -8,9 +8,11 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import com.example.alarmclock.database.Time
 import com.example.alarmclock.databinding.FragmentAddClockBinding
 import kotlinx.android.synthetic.main.options.*
 import kotlinx.android.synthetic.main.repeat.view.*
@@ -20,6 +22,8 @@ class addClock : Fragment() {
     private lateinit var binding: FragmentAddClockBinding
     private lateinit var viewModel: MainActivityViewModel
     private lateinit var frequent: String
+    private var check = false
+    private lateinit var updateAlarm : Time
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -29,12 +33,22 @@ class addClock : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentAddClockBinding.inflate(inflater,container,false)
-        viewModel = ViewModelProviders.of(this).get(MainActivityViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
+
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        var nowAlarm = arguments?.getSerializable("now")
+        if (nowAlarm != null) {
+            check = true
+            updateAlarm = nowAlarm as Time
+            viewModel.deleteTimes(updateAlarm)
+            Toast.makeText(this.requireContext(),"remove",Toast.LENGTH_LONG)
+
+        }
         binding.btnCancel.setOnClickListener(){
             Navigation.findNavController(binding.root).navigate(R.id.action_fragment_add_clock_to_mainFragment)
         }
@@ -102,12 +116,13 @@ class addClock : Fragment() {
         var timePicker = binding.timepicker
         var hour : String
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-          hour = timePicker.hour.toString() + ":" + timePicker.minute.toString()
+            hour = timePicker.hour.toString() + ":" + timePicker.minute.toString()
         }
         else hour = "00:00"
         val time = com.example.alarmclock.database.Time(0,hour,frequent,true)
-
         viewModel.insertTimes(time)
+
+
     }
 
 }
