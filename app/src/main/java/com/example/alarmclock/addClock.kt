@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.example.alarmclock.database.Time
 import com.example.alarmclock.databinding.FragmentAddClockBinding
+import kotlinx.android.synthetic.main.item.*
 import kotlinx.android.synthetic.main.options.*
 import kotlinx.android.synthetic.main.repeat.view.*
 
@@ -42,18 +43,21 @@ class addClock : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         var nowAlarm = arguments?.getSerializable("now")
-        if (nowAlarm != null) {
+            if (nowAlarm != null) {
             check = true
             updateAlarm = nowAlarm as Time
-            viewModel.deleteTimes(updateAlarm)
-            Toast.makeText(this.requireContext(),"remove",Toast.LENGTH_LONG)
+
 
         }
+        else {
+        }
         binding.btnCancel.setOnClickListener(){
+            check = false
             Navigation.findNavController(binding.root).navigate(R.id.action_fragment_add_clock_to_mainFragment)
         }
         binding.btnDone.setOnClickListener(){
             getTime()
+            check = false
             Navigation.findNavController(binding.root).navigate(R.id.action_fragment_add_clock_to_mainFragment)
         }
         frequent = "Một lần"
@@ -116,10 +120,15 @@ class addClock : Fragment() {
         var timePicker = binding.timepicker
         var hour : String
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            hour = timePicker.hour.toString() + ":" + timePicker.minute.toString()
+            hour = (if(timePicker.hour>=10) timePicker.hour.toString()
+            else ("0"+timePicker.hour.toString())) + ":" + (if(timePicker.minute>=10) timePicker.minute.toString()
+            else ("0"+timePicker.minute.toString()))
         }
         else hour = "00:00"
         val time = com.example.alarmclock.database.Time(0,hour,frequent,true)
+        if(check == true) {
+            viewModel.deleteTimes(updateAlarm)
+        }
         viewModel.insertTimes(time)
 
 
