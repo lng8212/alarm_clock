@@ -29,7 +29,6 @@ import java.util.*
 class ItemAdapter(var data :List<Time>, var viewModel: MainActivityViewModel): RecyclerView.Adapter<ItemAdapter.ViewHolder>()  {
     lateinit var binding: ItemBinding
     lateinit var binding2: FragmentMainBinding
-    var selectList = mutableListOf<Time>()
     inner class ViewHolder(val binding: ItemBinding):
         RecyclerView.ViewHolder(binding.root){
         val hour: TextView = binding.time
@@ -53,7 +52,6 @@ class ItemAdapter(var data :List<Time>, var viewModel: MainActivityViewModel): R
         item.itemView.setOnClickListener(){
             var bundle = Bundle()
             bundle.putSerializable("now", data[position])
-            Log.e("adapter123",data[position].toString())
             item.itemView.findNavController().navigate(R.id.action_mainFragment_to_fragment_add_clock,bundle)
         }
         item.itemView.setOnLongClickListener{

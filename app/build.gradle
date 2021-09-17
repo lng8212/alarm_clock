@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.alarmclock"
-        minSdk 22
+        minSdk 24
         targetSdk 30
         versionCode 1
         versionName "1.0"

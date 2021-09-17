@@ -46,4 +46,5 @@ class mainFragment : Fragment() {
         rvItem.setHasFixedSize(true)
     }
 
+
 }

@@ -1,5 +1,6 @@
 package com.example.alarmclock
 
+import android.app.AlarmManager
 import android.app.AlertDialog
 import android.os.Build
 import android.os.Bundle
@@ -8,12 +9,12 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.example.alarmclock.database.Time
 import com.example.alarmclock.databinding.FragmentAddClockBinding
+import com.example.alarmclock.ringtoneandnoti.GetTime
 import kotlinx.android.synthetic.main.item.*
 import kotlinx.android.synthetic.main.options.*
 import kotlinx.android.synthetic.main.repeat.view.*
@@ -25,6 +26,7 @@ class addClock : Fragment() {
     private lateinit var frequent: String
     private var check = false
     private lateinit var updateAlarm : Time
+    private lateinit var alarmManager: AlarmManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -99,15 +101,15 @@ class addClock : Fragment() {
 
                 AlertDialog.btn_xong.setOnClickListener(){
                     var date : String = ""
-                    if(AlertDialog.bt_t2.isChecked) date = date + "Thứ 2 "
-                    if(AlertDialog.bt_t3.isChecked) date = date + "Thứ 3 "
-                    if(AlertDialog.bt_t4.isChecked) date = date + "Thứ 4 "
-                    if(AlertDialog.bt_t5.isChecked) date = date + "Thứ 5 "
-                    if(AlertDialog.bt_t6.isChecked) date = date + "Thứ 6 "
-                    if(AlertDialog.bt_t7.isChecked) date = date + "Thứ 7 "
-                    if(AlertDialog.bt_t8.isChecked) date = date + "Chủ nhật "
+                    if(AlertDialog.bt_t2.isChecked) date = date + "T2 "
+                    if(AlertDialog.bt_t3.isChecked) date = date + "T3 "
+                    if(AlertDialog.bt_t4.isChecked) date = date + "T4 "
+                    if(AlertDialog.bt_t5.isChecked) date = date + "T5 "
+                    if(AlertDialog.bt_t6.isChecked) date = date + "T6 "
+                    if(AlertDialog.bt_t7.isChecked) date = date + "T7 "
+                    if(AlertDialog.bt_t8.isChecked) date = date + "CN "
                     Log.d("TAG", "value: " + date)
-                    frequent = date
+                    frequent = date.trim()
                     binding.frequently.text = frequent
                     AlertDialog.dismiss()
                 }
@@ -125,11 +127,13 @@ class addClock : Fragment() {
             else ("0"+timePicker.minute.toString()))
         }
         else hour = "00:00"
-        val time = com.example.alarmclock.database.Time(0,hour,frequent,true)
+        val time = com.example.alarmclock.database.Time(0,hour.trim(),frequent,true)
         if(check == true) {
             viewModel.deleteTimes(updateAlarm)
         }
         viewModel.insertTimes(time)
+        var gTime = GetTime(context!!)
+        gTime.setAlarm(time.hour)
 
 
     }
