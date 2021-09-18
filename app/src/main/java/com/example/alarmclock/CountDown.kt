@@ -1,8 +1,11 @@
 package com.example.alarmclock
 
 import android.content.Context
+import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.os.SharedMemory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,6 +32,8 @@ class CountDown : Fragment() {
     private var start: Long = 0
     private lateinit var countDown: CountDownTimer
     private var running: Boolean = true
+    private var isStopped: Boolean = false
+    private var endTime: Long = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -76,6 +81,7 @@ class CountDown : Fragment() {
 
 
     private fun startTime() {
+        endTime = System.currentTimeMillis() + start
         countDown = object :CountDownTimer(start,1000){
             override fun onTick(millisUntilFinished: Long) {
                 start = millisUntilFinished
@@ -83,8 +89,39 @@ class CountDown : Fragment() {
             }
 
             override fun onFinish() {
-                start = 0
                 running = false
+                updateButtons()
+            }
+
+        }.start()
+        running = true
+        updateButtons()
+
+    }
+
+    private fun pauseTime() {
+        running = false
+        updateButtons()
+    }
+
+    private fun stopTime(){
+        isStopped = true
+        running = false
+       updateButtons()
+    }
+
+    private fun updateButtons(){
+        if (running){
+            binding.btnResume.visibility = View.GONE
+            binding.btnPlay.visibility = View.GONE
+            binding.timeCountdown.visibility = View.GONE
+            binding.btnStop.visibility = View.VISIBLE
+            binding.btnPause.visibility = View.VISIBLE
+            binding.timeLeft.visibility = View.VISIBLE
+        }
+        else{
+            if (isStopped){
+                isStopped = false
                 binding.btnResume.visibility = View.GONE
                 binding.btnPlay.visibility = View.VISIBLE
                 binding.timeCountdown.visibility = View.VISIBLE
@@ -92,37 +129,25 @@ class CountDown : Fragment() {
                 binding.btnPause.visibility = View.GONE
                 binding.timeLeft.visibility = View.GONE
                 binding.timeCountdown.text.clear()
-                Toast.makeText(context,"TIME UP!!!",Toast.LENGTH_LONG).show()
+            }
+            else{
+                if(start<1000){
+                    binding.btnResume.visibility = View.GONE
+                    binding.btnPlay.visibility = View.VISIBLE
+                    binding.timeCountdown.visibility = View.VISIBLE
+                    binding.btnStop.visibility = View.GONE
+                    binding.btnPause.visibility = View.GONE
+                    binding.timeLeft.visibility = View.GONE
+                    binding.timeCountdown.text.clear()
+                }
+                else{
+                    countDown.cancel()
+                    binding.btnPause.visibility = View.GONE
+                    binding.btnResume.visibility = View.VISIBLE
+                }
             }
 
-        }.start()
-        running = true
-        binding.btnResume.visibility = View.GONE
-        binding.btnPlay.visibility = View.GONE
-        binding.timeCountdown.visibility = View.GONE
-        binding.btnStop.visibility = View.VISIBLE
-        binding.btnPause.visibility = View.VISIBLE
-        binding.timeLeft.visibility = View.VISIBLE
-
-    }
-
-    private fun pauseTime() {
-        running = false
-        countDown.cancel()
-        binding.btnPause.visibility = View.GONE
-        binding.btnResume.visibility = View.VISIBLE
-    }
-
-    private fun stopTime(){
-        running = false
-        start = 0
-        binding.btnResume.visibility = View.GONE
-        binding.btnPlay.visibility = View.VISIBLE
-        binding.timeCountdown.visibility = View.VISIBLE
-        binding.btnStop.visibility = View.GONE
-        binding.btnPause.visibility = View.GONE
-        binding.timeLeft.visibility = View.GONE
-        binding.timeCountdown.text.clear()
+        }
     }
 
     private fun updateCountDownText(){
@@ -132,12 +157,37 @@ class CountDown : Fragment() {
         binding.timeLeft.text = timeFormat
     }
 
+    override fun onStop() {
+        super.onStop()
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putLong("millisLeft",start)
-        outState.putBoolean("timerRunning", running)
+        val prefs = context!!.getSharedPreferences("prefs", MODE_PRIVATE)
+        val editor = prefs.edit()
+        editor.putLong("millisLeft",start)
+        editor.putBoolean("timerRunning",running)
+        editor.putLong("endTime",endTime)
+        editor.apply()
     }
+    override fun onStart() {
+        super.onStart()
+        val prefs = context!!.getSharedPreferences("prefs", MODE_PRIVATE)
+        start =  prefs.getLong("millisLeft",0)
+        running = prefs.getBoolean("timerRunning",false)
+        updateCountDownText()
+        updateButtons()
+        if (running){
+            endTime = prefs.getLong("endTime",0)
+            start = endTime - System.currentTimeMillis()
+            if(start<0){
+                start = 0
+                running = false
+                updateCountDownText()
+                updateButtons()
+            }
+            else {
+                startTime()
+            }
+        }
 
+    }
 
 }
