@@ -30,7 +30,7 @@ import androidx.core.content.ContextCompat.getSystemService
 class CountDown : Fragment() {
     private lateinit var binding: FragmentCountDownBinding
     private var start: Long = 0
-    private lateinit var countDown: CountDownTimer
+    private var countDown: CountDownTimer? = null
     private var running: Boolean = true
     private var isStopped: Boolean = false
     private var endTime: Long = 0
@@ -89,9 +89,11 @@ class CountDown : Fragment() {
             }
 
             override fun onFinish() {
+                isStopped = true
                 running = false
                 updateButtons()
             }
+
 
         }.start()
         running = true
@@ -105,22 +107,27 @@ class CountDown : Fragment() {
     }
 
     private fun stopTime(){
-        isStopped = true
-        running = false
-       updateButtons()
+        try{
+            isStopped = true
+            running = false
+            updateButtons()
+            countDown?.cancel()
+        }
+        catch (e: Exception){
+
+        }
     }
 
-    private fun updateButtons(){
-        if (running){
+    private fun updateButtons() {
+        if (running) {
             binding.btnResume.visibility = View.GONE
             binding.btnPlay.visibility = View.GONE
             binding.timeCountdown.visibility = View.GONE
             binding.btnStop.visibility = View.VISIBLE
             binding.btnPause.visibility = View.VISIBLE
             binding.timeLeft.visibility = View.VISIBLE
-        }
-        else{
-            if (isStopped){
+        } else {
+            if (isStopped || start < 1000) {
                 isStopped = false
                 binding.btnResume.visibility = View.GONE
                 binding.btnPlay.visibility = View.VISIBLE
@@ -129,24 +136,11 @@ class CountDown : Fragment() {
                 binding.btnPause.visibility = View.GONE
                 binding.timeLeft.visibility = View.GONE
                 binding.timeCountdown.text.clear()
+            } else {
+                countDown?.cancel()
+                binding.btnPause.visibility = View.GONE
+                binding.btnResume.visibility = View.VISIBLE
             }
-            else{
-                if(start<1000){
-                    binding.btnResume.visibility = View.GONE
-                    binding.btnPlay.visibility = View.VISIBLE
-                    binding.timeCountdown.visibility = View.VISIBLE
-                    binding.btnStop.visibility = View.GONE
-                    binding.btnPause.visibility = View.GONE
-                    binding.timeLeft.visibility = View.GONE
-                    binding.timeCountdown.text.clear()
-                }
-                else{
-                    countDown.cancel()
-                    binding.btnPause.visibility = View.GONE
-                    binding.btnResume.visibility = View.VISIBLE
-                }
-            }
-
         }
     }
 
@@ -159,7 +153,6 @@ class CountDown : Fragment() {
 
     override fun onStop() {
         super.onStop()
-
         val prefs = context!!.getSharedPreferences("prefs", MODE_PRIVATE)
         val editor = prefs.edit()
         editor.putLong("millisLeft",start)
@@ -172,8 +165,6 @@ class CountDown : Fragment() {
         val prefs = context!!.getSharedPreferences("prefs", MODE_PRIVATE)
         start =  prefs.getLong("millisLeft",0)
         running = prefs.getBoolean("timerRunning",false)
-        updateCountDownText()
-        updateButtons()
         if (running){
             endTime = prefs.getLong("endTime",0)
             start = endTime - System.currentTimeMillis()

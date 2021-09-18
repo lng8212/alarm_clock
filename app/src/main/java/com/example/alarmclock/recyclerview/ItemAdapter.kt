@@ -28,7 +28,6 @@ import java.util.*
 
 class ItemAdapter(var data :List<Time>, var viewModel: MainActivityViewModel): RecyclerView.Adapter<ItemAdapter.ViewHolder>()  {
     lateinit var binding: ItemBinding
-    lateinit var binding2: FragmentMainBinding
     inner class ViewHolder(val binding: ItemBinding):
         RecyclerView.ViewHolder(binding.root){
         val hour: TextView = binding.time
@@ -57,14 +56,8 @@ class ItemAdapter(var data :List<Time>, var viewModel: MainActivityViewModel): R
         item.itemView.setOnLongClickListener{
             viewModel.deleteTimes(data[position])
             return@setOnLongClickListener true
-
-
         }
-
-
-
     }
-
     override fun getItemCount(): Int {
         return data.size
     }

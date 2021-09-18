@@ -27,11 +27,11 @@ class GetTime constructor(val context: Context) {
 
         val am = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         var intent = Intent(context,AlarmReceiver::class.java).let { intent ->
-            intent.putExtra("Messenger","alarm time")
+            intent.putExtra("Messenger",time)
             PendingIntent.getBroadcast(context, 0, intent, 0)
         }
 
-        am.setInexactRepeating(AlarmManager.RTC_WAKEUP,cal.timeInMillis,AlarmManager.INTERVAL_DAY,intent)
+        am.set(AlarmManager.RTC_WAKEUP,cal.timeInMillis,intent)
 //        am.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
 //            SystemClock.elapsedRealtime() + 60 * 1000,intent)
     }
