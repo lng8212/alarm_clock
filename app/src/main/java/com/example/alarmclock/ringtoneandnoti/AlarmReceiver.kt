@@ -7,6 +7,7 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.media.RingtoneManager
 import android.os.Build
 import android.util.Log
 import android.widget.Toast
@@ -50,7 +51,6 @@ class AlarmReceiver : BroadcastReceiver(){
         val builder = NotificationCompat.Builder(context!!,CHANNEL_ID).setSmallIcon(R.drawable.ic_baseline_access_alarms_24)
             .setContentText("Báo thức")
             .setContentText("Báo thức lúc: " + descrip)
-
             .setContentIntent(pendingIntent)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
         with(NotificationManagerCompat.from(context!!)){

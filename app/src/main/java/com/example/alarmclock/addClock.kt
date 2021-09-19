@@ -36,7 +36,7 @@ class addClock : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentAddClockBinding.inflate(inflater,container,false)
-        viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
+
 
 
         return binding.root
@@ -44,6 +44,7 @@ class addClock : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
         var nowAlarm = arguments?.getSerializable("now")
             if (nowAlarm != null) {
             check = true

@@ -12,7 +12,7 @@
 
     <Button
         android:id="@+id/btn_baothuc"
-        android:layout_width="205dp"
+        android:layout_width="0dp"
         android:layout_height="70dp"
         android:backgroundTint="@android:color/white"
         android:clickable="false"
@@ -23,13 +23,13 @@
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/btn_demnguoc"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btn_demnguoc"
-        android:layout_width="205dp"
+        android:layout_width="0dp"
         android:layout_height="70dp"
         android:backgroundTint="@color/color_main"
         android:fontFamily="sans-serif-condensed-light"
@@ -39,6 +39,8 @@
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btn_baothuc"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -63,16 +65,14 @@
         android:id="@+id/btn_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="173dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/add"
         android:contentDescription="TODO"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="@+id/list_baothuc"
         tools:ignore="SpeakableTextPresentCheck" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

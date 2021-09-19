@@ -24,6 +24,12 @@ class mainFragment : Fragment() {
     ): View? {
         binding = FragmentMainBinding.inflate(inflater,container,false)
 
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
         viewModel.data.observe(viewLifecycleOwner,{
             rvItem.adapter = ItemAdapter(it,viewModel)
@@ -35,11 +41,6 @@ class mainFragment : Fragment() {
             Navigation.findNavController(binding.root).navigate(R.id.action_mainFragment_to_countDown)
         }
         setUpRecyclerView()
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
     }
     private fun setUpRecyclerView(){
         rvItem = binding.listBaothuc

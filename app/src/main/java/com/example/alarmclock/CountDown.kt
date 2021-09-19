@@ -45,6 +45,12 @@ class CountDown : Fragment() {
     ): View? {
         binding = FragmentCountDownBinding.inflate(inflater,container,false)
 
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         binding.btnBaothuc2.setOnClickListener(){
             Navigation.findNavController(binding.root).navigate(R.id.action_countDown_to_mainFragment)
         }
@@ -69,9 +75,7 @@ class CountDown : Fragment() {
         binding.btnStop.setOnClickListener(){
             stopTime()
         }
-        return binding.root
     }
-
     private fun hideMyKeyBoard(){
          if(view!= null){
              val hideMe = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
