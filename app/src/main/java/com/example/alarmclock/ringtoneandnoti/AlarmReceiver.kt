@@ -20,43 +20,15 @@ import com.example.alarmclock.mainFragment
 class AlarmReceiver : BroadcastReceiver(){
     private val CHANNEL_ID = "channel_id_01"
     private val notificationID = 101
+    private var noti = com.example.alarmclock.ringtoneandnoti.NotificationManager(CHANNEL_ID, notificationID)
     override fun onReceive(context: Context?, intent: Intent?) {
-        Toast.makeText(context,"Alarm Ringing",Toast.LENGTH_LONG).show()
         val message = intent?.getStringExtra("Messenger")
-
-            createNotificationChannel(context)
-            sendNotification(context,message.toString())
+            noti.createNotificationChannel(context)
+            noti.sendNotification(context,"Báo thức", message.toString())
 
 
     }
-    private fun createNotificationChannel(context: Context?){
-        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
-            val name = "Notification"
-            val descriptionText = "Notification Description"
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val channel = NotificationChannel(CHANNEL_ID,name,importance).apply {
-                description = descriptionText
 
-            }
-            val notificationManager = context!!.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(channel)
-        }
-    }
-    private fun sendNotification(context: Context?, descrip: String){
-        val intent = Intent(context!!, MainActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        }
-        val pendingIntent = PendingIntent.getActivity(context!!,0,intent,0)
-
-        val builder = NotificationCompat.Builder(context!!,CHANNEL_ID).setSmallIcon(R.drawable.ic_baseline_access_alarms_24)
-            .setContentText("Báo thức")
-            .setContentText("Báo thức lúc: " + descrip)
-            .setContentIntent(pendingIntent)
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-        with(NotificationManagerCompat.from(context!!)){
-            notify(notificationID,builder.build())
-        }
-    }
 
 
 }

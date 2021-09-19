@@ -27,7 +27,7 @@ class GetTime constructor(val context: Context) {
 
         val am = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         var intent = Intent(context,AlarmReceiver::class.java).let { intent ->
-            intent.putExtra("Messenger",time)
+            intent.putExtra("Messenger", time)
             PendingIntent.getBroadcast(context, 0, intent, 0)
         }
         am.set(AlarmManager.RTC_WAKEUP,cal.timeInMillis,intent)

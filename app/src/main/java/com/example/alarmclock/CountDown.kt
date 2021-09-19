@@ -34,6 +34,9 @@ class CountDown : Fragment() {
     private var running: Boolean = true
     private var isStopped: Boolean = false
     private var endTime: Long = 0
+    private val CHANNEL_ID = "channel_id_02"
+    private val notificationID = 102
+    private var noti = com.example.alarmclock.ringtoneandnoti.NotificationManager(CHANNEL_ID, notificationID)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -44,25 +47,28 @@ class CountDown : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentCountDownBinding.inflate(inflater,container,false)
-
+        noti.createNotificationChannel(context)
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.timeCountdown.setIs24HourView(true)
+        binding.timeCountdown.hour = 0
+        binding.timeCountdown.minute = 0
         binding.btnBaothuc2.setOnClickListener(){
             Navigation.findNavController(binding.root).navigate(R.id.action_countDown_to_mainFragment)
         }
         binding.btnPlay.setOnClickListener(){
-            val a = binding.timeCountdown.text.toString()
+            val h =binding.timeCountdown.hour
+            val m = binding.timeCountdown.minute
             try {
-                start = (((a[0].toString() + a[1].toString()).toLong())*60 + ((a[3].toString() + a[4].toString()).toLong()))*1000
+                start = ((h*60 + m )*1000).toLong()
                 hideMyKeyBoard()
                 startTime()
             }
             catch (e: Exception){
-                Toast.makeText(context,"Định dạng nhập là mm:ss", Toast.LENGTH_LONG).show()
             }
 
         }
@@ -95,6 +101,7 @@ class CountDown : Fragment() {
             override fun onFinish() {
                 isStopped = true
                 running = false
+                noti.sendNotification(context,"Time's up","Hết thời gian đếm ngược.")
                 updateButtons()
             }
 
@@ -139,7 +146,8 @@ class CountDown : Fragment() {
                 binding.btnStop.visibility = View.GONE
                 binding.btnPause.visibility = View.GONE
                 binding.timeLeft.visibility = View.GONE
-                binding.timeCountdown.text.clear()
+                binding.timeCountdown.hour = 0
+                binding.timeCountdown.minute = 0
             } else {
                 countDown?.cancel()
                 binding.btnPause.visibility = View.GONE

@@ -92,27 +92,29 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="SpeakableTextPresentCheck" />
 
-    <EditText
+    <TimePicker
         android:id="@+id/time_countdown"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="60dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="60dp"
-        android:ems="10"
-        android:inputType="time"
-        android:textAlignment="center"
-        android:textColor="@color/color_main"
-        android:textSize="46sp"
-        android:textStyle="bold"
+        android:amPmBackgroundColor="@color/color_main"
+        android:amPmTextColor="@color/color_main"
+        android:animateLayoutChanges="false"
+        android:clickable="true"
+        android:orientation="horizontal"
+        android:scaleX="1.5"
+        android:scaleY="1.5"
+        android:scrollbarSize="16dp"
+        android:timePickerMode="spinner"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_baothuc2"
-        app:layout_constraintVertical_bias="0.386"
-        tools:text="10:00" />
+        app:layout_constraintVertical_bias="0.392" />
 
     <TextView
         android:id="@+id/timeLeft"
