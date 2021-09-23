@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.alarmclock.databinding.FragmentMainBinding
 import com.example.alarmclock.recyclerview.ItemAdapter
@@ -29,10 +30,13 @@ class mainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        rvItem = binding.listBaothuc
+        rvItem.setHasFixedSize(true)
+        rvItem.layoutManager = LinearLayoutManager(context)
         viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
         viewModel.data.observe(viewLifecycleOwner,{
             rvItem.adapter = ItemAdapter(it,viewModel)
+
         })
         binding.btnAdd.setOnClickListener() {
             Navigation.findNavController(binding.root).navigate(R.id.action_mainFragment_to_fragment_add_clock)
@@ -40,12 +44,9 @@ class mainFragment : Fragment() {
         binding.btnDemnguoc.setOnClickListener(){
             Navigation.findNavController(binding.root).navigate(R.id.action_mainFragment_to_countDown)
         }
-        setUpRecyclerView()
+
     }
-    private fun setUpRecyclerView(){
-        rvItem = binding.listBaothuc
-        rvItem.setHasFixedSize(true)
-    }
+
 
 
 }

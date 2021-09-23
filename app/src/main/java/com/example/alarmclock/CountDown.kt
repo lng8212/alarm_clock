@@ -36,7 +36,6 @@ class CountDown : Fragment() {
     private var endTime: Long = 0
     private val CHANNEL_ID = "channel_id_02"
     private val notificationID = 102
-    private var noti = com.example.alarmclock.ringtoneandnoti.NotificationManager(CHANNEL_ID, notificationID)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -47,7 +46,6 @@ class CountDown : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentCountDownBinding.inflate(inflater,container,false)
-        noti.createNotificationChannel(context)
 
         return binding.root
     }
@@ -101,7 +99,6 @@ class CountDown : Fragment() {
             override fun onFinish() {
                 isStopped = true
                 running = false
-                noti.sendNotification(context,"Time's up","Hết thời gian đếm ngược.")
                 updateButtons()
             }
 

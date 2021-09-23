@@ -14,6 +14,7 @@ abstract class TimeDatabase: RoomDatabase() {
     abstract fun timeDao(): TimeDAO
 
     companion object {
+        var stt = 0
         private var INSTANCE: TimeDatabase? = null
         fun getTimeDatabase(context: Context): TimeDatabase {
             var tempInstance = INSTANCE
@@ -25,7 +26,7 @@ abstract class TimeDatabase: RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     TimeDatabase::class.java,
-                    "alarm_database"
+                    "alarm_database2"
                 ).build()
                 INSTANCE = instance
                 return instance
