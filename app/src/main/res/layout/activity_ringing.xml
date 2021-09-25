@@ -5,25 +5,55 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
+    <ImageButton
         android:id="@+id/btn_off"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="160dp"
-        android:text="OFF"
+        android:background="@drawable/btn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.244"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.25"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="SpeakableTextPresentCheck" />
 
-    <Button
+    <ImageButton
         android:id="@+id/btn_delay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="160dp"
-        android:text="DELAY"
+        android:background="@drawable/btn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.467"
-        app:layout_constraintStart_toEndOf="@+id/btn_off" />
+        app:layout_constraintStart_toEndOf="@+id/btn_off"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <TextView
+        android:id="@+id/txt_off"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed-light"
+        android:text="OFF"
+        android:textColor="@color/color_main"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_off"
+        app:layout_constraintEnd_toEndOf="@+id/btn_off"
+        app:layout_constraintStart_toStartOf="@+id/btn_off"
+        app:layout_constraintTop_toTopOf="@+id/btn_off" />
+
+    <TextView
+        android:id="@+id/txt_delay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed-light"
+        android:text="DELAY"
+        android:textColor="@color/color_main"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_delay"
+        app:layout_constraintEnd_toEndOf="@+id/btn_delay"
+        app:layout_constraintStart_toStartOf="@+id/btn_delay"
+        app:layout_constraintTop_toTopOf="@+id/btn_delay" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -161,7 +161,6 @@ class addClock : Fragment() {
 
             }
         }
-
     }
     private fun getTime(){
         var timePicker = binding.timepicker

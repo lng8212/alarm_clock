@@ -57,6 +57,7 @@
         android:minHeight="48dp"
         android:textColorHighlight="@color/color_main"
         android:textColorLink="@color/color_main"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/frame"
         app:layout_constraintHorizontal_bias="0.913"

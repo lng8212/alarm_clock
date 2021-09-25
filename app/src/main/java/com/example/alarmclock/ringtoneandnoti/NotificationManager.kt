@@ -21,24 +21,23 @@ import com.example.alarmclock.Ringing
 
 class NotificationManager : Service() {
     val CHANNEL_ID = "ALARM CHANNEL"
-    lateinit var mediaPlayer: MediaPlayer
     var id: Int = 0
-    override fun onCreate() {
-        super.onCreate()
-        mediaPlayer = MediaPlayer.create(this, R.raw.clock)
-        mediaPlayer.isLooping = true
-    }
+
+
+
 
     @SuppressLint("WrongConstant")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        var mediaPlayer = MediaPlayer.create(this, R.raw.clock)
         var handleAlarm:String? = intent?.extras?.getString("handleAlarm")
         val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.createNotificationChannel(
             NotificationChannel(
                 CHANNEL_ID,
                 "Notification",
-                NotificationManager.IMPORTANCE_DEFAULT
+                NotificationManager.IMPORTANCE_LOW
+
             )
         )
         if(handleAlarm == "on") {
@@ -56,16 +55,17 @@ class NotificationManager : Service() {
                 .setContentTitle("Báo thức")
                 .setContentText("WAKE UP NOW!!!")
                 .setContentIntent(notifyPendingIntent)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
             with(NotificationManagerCompat.from(this)) {
                 notify(101, notification.build())
             }
+
+            mediaPlayer.isLooping = true
             mediaPlayer.start()
             id = 0
         }
         else if (id ==0){
-            mediaPlayer.stop()
-            mediaPlayer.reset()
+            mediaPlayer.release()
         }
         return START_NOT_STICKY
 
