@@ -18,7 +18,6 @@ class mainFragment : Fragment() {
     private lateinit var binding: FragmentMainBinding
     private lateinit var rvItem : RecyclerView
     private lateinit var viewModel: MainActivityViewModel
-    private lateinit var textClock: Clock
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -30,9 +29,6 @@ class mainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        rvItem = binding.listBaothuc
-        rvItem.setHasFixedSize(true)
-        rvItem.layoutManager = LinearLayoutManager(context)
         viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
         viewModel.data.observe(viewLifecycleOwner,{
             rvItem.adapter = ItemAdapter(it,viewModel)
@@ -44,7 +40,9 @@ class mainFragment : Fragment() {
         binding.btnDemnguoc.setOnClickListener(){
             Navigation.findNavController(binding.root).navigate(R.id.action_mainFragment_to_countDown)
         }
-
+        rvItem = binding.listBaothuc
+        rvItem.setHasFixedSize(true)
+        rvItem.layoutManager = LinearLayoutManager(context)
     }
 
 

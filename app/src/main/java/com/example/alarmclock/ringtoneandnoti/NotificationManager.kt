@@ -65,7 +65,8 @@ class NotificationManager : Service() {
             id = 0
         }
         else if (id ==0){
-            mediaPlayer.release()
+            mediaPlayer.stop()
+            mediaPlayer.reset()
         }
         return START_NOT_STICKY
 

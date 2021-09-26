@@ -25,7 +25,6 @@ class addClock : Fragment() {
     private lateinit var frequent: String
     private var check = false
     private lateinit var updateAlarm : Time
-    private lateinit var alarmManager: AlarmManager
     private var Mon = false
     private var Tue = false
     private var Wed = false

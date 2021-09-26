@@ -34,12 +34,6 @@ class CountDown : Fragment() {
     private var running: Boolean = true
     private var isStopped: Boolean = false
     private var endTime: Long = 0
-    private val CHANNEL_ID = "channel_id_02"
-    private val notificationID = 102
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
