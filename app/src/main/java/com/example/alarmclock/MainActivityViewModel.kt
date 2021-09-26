@@ -11,10 +11,11 @@ import com.example.alarmclock.database.TimeDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MainActivityViewModel(app: Application): AndroidViewModel(app) {
+class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
 
     var alarmRepository: AlarmRepository
-    var  data : LiveData<List<Time>> = MutableLiveData()
+    var data: LiveData<List<Time>> = MutableLiveData()
+
     init {
         val timeDao = TimeDatabase.getTimeDatabase(app).timeDao()
         alarmRepository = AlarmRepository(timeDao)
@@ -22,18 +23,20 @@ class MainActivityViewModel(app: Application): AndroidViewModel(app) {
     }
 
     fun insertTimes(entity: Time) {
-        viewModelScope.launch(Dispatchers.IO){
+        viewModelScope.launch(Dispatchers.IO) {
             alarmRepository.insertTimes(entity)
         }
     }
-    fun updateTimes(entity: Time){
-        viewModelScope.launch(Dispatchers.IO){
+
+    fun updateTimes(entity: Time) {
+        viewModelScope.launch(Dispatchers.IO) {
             alarmRepository.updateTimes(entity)
         }
 
     }
-    fun deleteTimes(entity: Time){
-        viewModelScope.launch(Dispatchers.IO){
+
+    fun deleteTimes(entity: Time) {
+        viewModelScope.launch(Dispatchers.IO) {
             alarmRepository.deleteTimes(entity)
         }
     }

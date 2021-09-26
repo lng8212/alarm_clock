@@ -18,60 +18,56 @@ import com.example.alarmclock.R
 import com.example.alarmclock.mainFragment
 import java.util.*
 
-class AlarmReceiver : BroadcastReceiver(){
+class AlarmReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         Log.e("Receiver", "Came")
-        var handleAlarm : String? = intent?.extras?.getString("handleAlarm")
-        var myIntent = Intent(context, com.example.alarmclock.ringtoneandnoti.NotificationManager::class.java)
-        myIntent.putExtra("handleAlarm",handleAlarm)
-        if(intent?.getBooleanExtra("Repeat",true) == true)
-        {
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+        var handleAlarm: String? = intent?.extras?.getString("handleAlarm")
+        var myIntent =
+            Intent(context, com.example.alarmclock.ringtoneandnoti.NotificationManager::class.java)
+        myIntent.putExtra("handleAlarm", handleAlarm)
+        if (intent?.getBooleanExtra("Repeat", true) == true) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 context?.startForegroundService(myIntent)
+            } else {
+                context?.startService(myIntent)
             }
-            else{
-                 context?.startService(myIntent)
-            }
-        }
-        else
-        {
-            if(today(intent))
-            {
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+        } else {
+            if (today(intent)) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     context?.startForegroundService(myIntent)
-                }
-                else{
+                } else {
                     context?.startService(myIntent)
                 }
             }
         }
 
     }
-    private fun today(intent: Intent?):Boolean{
+
+    private fun today(intent: Intent?): Boolean {
         var calendar = Calendar.getInstance()
         calendar.timeInMillis = System.currentTimeMillis()
         var td = calendar.get(Calendar.DAY_OF_WEEK)
-        when(td){
+        when (td) {
             Calendar.MONDAY -> {
-                if(intent?.getBooleanExtra("Mon",false) == true) return true
+                if (intent?.getBooleanExtra("Mon", false) == true) return true
             }
-            Calendar.TUESDAY-> {
-                if(intent?.getBooleanExtra("Tue",false) == true) return true
+            Calendar.TUESDAY -> {
+                if (intent?.getBooleanExtra("Tue", false) == true) return true
             }
             Calendar.WEDNESDAY -> {
-                if(intent?.getBooleanExtra("Wed",false) == true) return true
+                if (intent?.getBooleanExtra("Wed", false) == true) return true
             }
             Calendar.THURSDAY -> {
-                if(intent?.getBooleanExtra("Thu",false) == true) return true
+                if (intent?.getBooleanExtra("Thu", false) == true) return true
             }
             Calendar.FRIDAY -> {
-                if(intent?.getBooleanExtra("Fri",false) == true) return true
+                if (intent?.getBooleanExtra("Fri", false) == true) return true
             }
             Calendar.SATURDAY -> {
-                if(intent?.getBooleanExtra("Sat",false) == true) return true
+                if (intent?.getBooleanExtra("Sat", false) == true) return true
             }
             Calendar.SUNDAY -> {
-                if(intent?.getBooleanExtra("Sun",false) == true) return true
+                if (intent?.getBooleanExtra("Sun", false) == true) return true
             }
         }
         return false

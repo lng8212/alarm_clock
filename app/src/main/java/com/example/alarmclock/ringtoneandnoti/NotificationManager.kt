@@ -24,13 +24,11 @@ class NotificationManager : Service() {
     var id: Int = 0
 
 
-
-
     @SuppressLint("WrongConstant")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         var mediaPlayer = MediaPlayer.create(this, R.raw.clock)
-        var handleAlarm:String? = intent?.extras?.getString("handleAlarm")
+        var handleAlarm: String? = intent?.extras?.getString("handleAlarm")
         val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.createNotificationChannel(
             NotificationChannel(
@@ -40,13 +38,12 @@ class NotificationManager : Service() {
 
             )
         )
-        if(handleAlarm == "on") {
-            id =1
+        if (handleAlarm == "on") {
+            id = 1
+        } else if (handleAlarm == "off") {
+            id = 0
         }
-        else if(handleAlarm=="off"){
-            id=0
-        }
-        if(id == 1){
+        if (id == 1) {
 
             var notifyIntent = Intent(this, Ringing::class.java)
             val notifyPendingIntent = PendingIntent.getActivity(this, 0, notifyIntent, 0)
@@ -63,8 +60,7 @@ class NotificationManager : Service() {
             mediaPlayer.isLooping = true
             mediaPlayer.start()
             id = 0
-        }
-        else if (id ==0){
+        } else if (id == 0) {
             mediaPlayer.stop()
             mediaPlayer.reset()
         }

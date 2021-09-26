@@ -10,8 +10,8 @@ import com.example.alarmclock.databinding.ActivityRingingBinding
 import com.example.alarmclock.ringtoneandnoti.AlarmReceiver
 import java.util.*
 
-class Ringing:AppCompatActivity() {
-    private lateinit var binding : ActivityRingingBinding
+class Ringing : AppCompatActivity() {
+    private lateinit var binding: ActivityRingingBinding
     private lateinit var btnOff: ImageButton
     private lateinit var btnDelay: ImageButton
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,25 +21,38 @@ class Ringing:AppCompatActivity() {
         setContentView(view)
         btnOff = binding.btnOff
         btnDelay = binding.btnDelay
-        btnOff.setOnClickListener(){
-            var intentService  = Intent(applicationContext,AlarmReceiver::class.java)
-            intentService.putExtra("handleAlarm","off")
+        btnOff.setOnClickListener() {
+            var intentService = Intent(applicationContext, AlarmReceiver::class.java)
+            intentService.putExtra("handleAlarm", "off")
             applicationContext.sendBroadcast(intentService)
             finish()
         }
-        btnDelay.setOnClickListener(){
+        btnDelay.setOnClickListener() {
             var calendar = Calendar.getInstance()
             var intentService = Intent(applicationContext, AlarmReceiver::class.java)
-            intentService.putExtra("handleAlarm","off")
+            intentService.putExtra("handleAlarm", "off")
             var hour = calendar.get(Calendar.HOUR_OF_DAY)
-            var minute =  calendar.get(Calendar.MINUTE)
-            if(minute<55) minute +=5
-            else{
-                minute-=55
-                hour +=1
+            var minute = calendar.get(Calendar.MINUTE)
+            if (minute < 55) minute += 5
+            else {
+                minute -= 55
+                hour += 1
             }
 
-            var newAlarm = com.example.alarmclock.database.Time(hour.toString() + ":" + minute.toString(),"",false,true,false,false, false, false, false, false, false,TimeDatabase.stt++)
+            var newAlarm = com.example.alarmclock.database.Time(
+                hour.toString() + ":" + minute.toString(),
+                "",
+                false,
+                true,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                TimeDatabase.stt++
+            )
             newAlarm.schedule(this)
             applicationContext.sendBroadcast(intentService)
             finish()

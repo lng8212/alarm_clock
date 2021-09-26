@@ -31,50 +31,58 @@ data class Time(
     var Sat: Boolean,
     var Sun: Boolean,
     @PrimaryKey(autoGenerate = true)
-    var id:Int
-): Serializable{
+    var id: Int
+) : Serializable {
 
 
-    fun schedule(context: Context){
-        val hour  =( this.hour[0].toString()+ this.hour[1].toString()).toInt()
-        val minute =( this.hour[3].toString()+ this.hour[4].toString()).toInt()
+    fun schedule(context: Context) {
+        val hour = (this.hour[0].toString() + this.hour[1].toString()).toInt()
+        val minute = (this.hour[3].toString() + this.hour[4].toString()).toInt()
         var calendar = Calendar.getInstance().apply {
             timeInMillis = System.currentTimeMillis()
-            set(Calendar.HOUR_OF_DAY,hour)
-            set(Calendar.MINUTE,minute)
-            set(Calendar.SECOND,0)
+            set(Calendar.HOUR_OF_DAY, hour)
+            set(Calendar.MINUTE, minute)
+            set(Calendar.SECOND, 0)
         }
         Log.e("id", this.id.toString())
-        Log.e("hour", this.hour[0].toString()+ this.hour[1].toString())
-        Log.e("minute", this.hour[3].toString()+ this.hour[4].toString())
+        Log.e("hour", this.hour[0].toString() + this.hour[1].toString())
+        Log.e("minute", this.hour[3].toString() + this.hour[4].toString())
 
         var intent = Intent(context, AlarmReceiver::class.java)
-            intent.putExtra("handleAlarm","on")
-            intent.putExtra("Repeat", this.once)
-            intent.putExtra("Mon",this.Mon)
-            intent.putExtra("Tue",this.Tue)
-            intent.putExtra("Wed",this.Wed)
-            intent.putExtra("Thu",this.Thu)
-            intent.putExtra("Fri",this.Fri)
-            intent.putExtra("Sat",this.Sat)
-            intent.putExtra("Sun",this.Sun)
-            var pendingIntent = PendingIntent.getBroadcast(context,this.id,intent,PendingIntent.FLAG_UPDATE_CURRENT)
-            val alarmManager = context.applicationContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-            Log.e("Once",this.once.toString())
-            if(this.once == false){
-                Log.e("vào đây","111")
-                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.timeInMillis,AlarmManager.INTERVAL_DAY,pendingIntent)
-            }
-            else{
-                alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.timeInMillis,pendingIntent)
-            }
+        intent.putExtra("handleAlarm", "on")
+        intent.putExtra("Repeat", this.once)
+        intent.putExtra("Mon", this.Mon)
+        intent.putExtra("Tue", this.Tue)
+        intent.putExtra("Wed", this.Wed)
+        intent.putExtra("Thu", this.Thu)
+        intent.putExtra("Fri", this.Fri)
+        intent.putExtra("Sat", this.Sat)
+        intent.putExtra("Sun", this.Sun)
+        var pendingIntent =
+            PendingIntent.getBroadcast(context, this.id, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val alarmManager =
+            context.applicationContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        Log.e("Once", this.once.toString())
+        if (this.once == false) {
+            Log.e("vào đây", "111")
+            alarmManager.setRepeating(
+                AlarmManager.RTC_WAKEUP,
+                calendar.timeInMillis,
+                AlarmManager.INTERVAL_DAY,
+                pendingIntent
+            )
+        } else {
+            alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
+        }
     }
 
 
-    fun cancelAlarm(context: Context){
+    fun cancelAlarm(context: Context) {
         var intent = Intent(context, AlarmReceiver::class.java)
-        var pendingIntent = PendingIntent.getBroadcast(context,this.id,intent,PendingIntent.FLAG_UPDATE_CURRENT)
-        val alarmManager = context.applicationContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        var pendingIntent =
+            PendingIntent.getBroadcast(context, this.id, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val alarmManager =
+            context.applicationContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         alarmManager.cancel(pendingIntent)
     }
 }

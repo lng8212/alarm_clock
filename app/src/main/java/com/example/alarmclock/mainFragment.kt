@@ -16,13 +16,13 @@ import java.time.Clock
 
 class mainFragment : Fragment() {
     private lateinit var binding: FragmentMainBinding
-    private lateinit var rvItem : RecyclerView
+    private lateinit var rvItem: RecyclerView
     private lateinit var viewModel: MainActivityViewModel
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentMainBinding.inflate(inflater,container,false)
+        binding = FragmentMainBinding.inflate(inflater, container, false)
 
         return binding.root
     }
@@ -30,21 +30,22 @@ class mainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
-        viewModel.data.observe(viewLifecycleOwner,{
-            rvItem.adapter = ItemAdapter(it,viewModel)
+        viewModel.data.observe(viewLifecycleOwner, {
+            rvItem.adapter = ItemAdapter(it, viewModel)
 
         })
         binding.btnAdd.setOnClickListener() {
-            Navigation.findNavController(binding.root).navigate(R.id.action_mainFragment_to_fragment_add_clock)
+            Navigation.findNavController(binding.root)
+                .navigate(R.id.action_mainFragment_to_fragment_add_clock)
         }
-        binding.btnDemnguoc.setOnClickListener(){
-            Navigation.findNavController(binding.root).navigate(R.id.action_mainFragment_to_countDown)
+        binding.btnDemnguoc.setOnClickListener() {
+            Navigation.findNavController(binding.root)
+                .navigate(R.id.action_mainFragment_to_countDown)
         }
         rvItem = binding.listBaothuc
         rvItem.setHasFixedSize(true)
         rvItem.layoutManager = LinearLayoutManager(context)
     }
-
 
 
 }

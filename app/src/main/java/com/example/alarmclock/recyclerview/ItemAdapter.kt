@@ -26,20 +26,21 @@ import com.example.alarmclock.mainFragment
 import java.util.*
 
 
-class ItemAdapter(var data :List<Time>, var viewModel: MainActivityViewModel): RecyclerView.Adapter<ItemAdapter.ViewHolder>()  {
+class ItemAdapter(var data: List<Time>, var viewModel: MainActivityViewModel) :
+    RecyclerView.Adapter<ItemAdapter.ViewHolder>() {
     lateinit var binding: ItemBinding
-    inner class ViewHolder(val binding: ItemBinding):
-        RecyclerView.ViewHolder(binding.root){
+
+    inner class ViewHolder(val binding: ItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         val hour: TextView = binding.time
         val loop: TextView = binding.day
         val switch: Switch = binding.turnonOff
 
 
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        binding = ItemBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        binding = ItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
@@ -48,16 +49,18 @@ class ItemAdapter(var data :List<Time>, var viewModel: MainActivityViewModel): R
         item.loop.text = data[position].repeat
         item.switch.isChecked = data[position].turn!!
 
-        item.itemView.setOnClickListener(){
+        item.itemView.setOnClickListener() {
             var bundle = Bundle()
             bundle.putSerializable("now", data[position])
-            item.itemView.findNavController().navigate(R.id.action_mainFragment_to_fragment_add_clock,bundle)
+            item.itemView.findNavController()
+                .navigate(R.id.action_mainFragment_to_fragment_add_clock, bundle)
         }
-        item.itemView.setOnLongClickListener{
+        item.itemView.setOnLongClickListener {
             viewModel.deleteTimes(data[position])
             return@setOnLongClickListener true
         }
     }
+
     override fun getItemCount(): Int {
         return data.size
     }

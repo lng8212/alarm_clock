@@ -6,11 +6,12 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = arrayOf(Time::class),
+@Database(
+    entities = arrayOf(Time::class),
     version = 1
 
 )
-abstract class TimeDatabase: RoomDatabase() {
+abstract class TimeDatabase : RoomDatabase() {
     abstract fun timeDao(): TimeDAO
 
     companion object {

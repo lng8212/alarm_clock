@@ -8,7 +8,7 @@
         android:id="@+id/mainFragment"
         android:name="com.example.alarmclock.mainFragment"
         android:label="fragment_main"
-        tools:layout="@layout/fragment_main" >
+        tools:layout="@layout/fragment_main">
         <action
             android:id="@+id/action_mainFragment_to_fragment_add_clock"
             app:destination="@id/fragment_add_clock" />
@@ -29,7 +29,7 @@
         android:id="@+id/countDown"
         android:name="com.example.alarmclock.CountDown"
         android:label="fragment_count_down"
-        tools:layout="@layout/fragment_count_down" >
+        tools:layout="@layout/fragment_count_down">
         <action
             android:id="@+id/action_countDown_to_mainFragment"
             app:destination="@id/mainFragment" />
