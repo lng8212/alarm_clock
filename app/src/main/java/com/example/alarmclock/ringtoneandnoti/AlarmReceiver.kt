@@ -19,20 +19,20 @@ import com.example.alarmclock.mainFragment
 import java.util.*
 
 class AlarmReceiver : BroadcastReceiver() {
-    override fun onReceive(context: Context?, intent: Intent?) {
+    override fun onReceive(context: Context?, intent: Intent?) { // khi nhận đc pendingintent
         Log.e("Receiver", "Came")
         var handleAlarm: String? = intent?.extras?.getString("handleAlarm")
         var myIntent =
             Intent(context, com.example.alarmclock.ringtoneandnoti.NotificationManager::class.java)
-        myIntent.putExtra("handleAlarm", handleAlarm)
-        if (intent?.getBooleanExtra("Repeat", true) == true) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        myIntent.putExtra("handleAlarm", handleAlarm) // gửi tín hiệu handleAlarm qua NotificationManager
+        if (intent?.getBooleanExtra("Repeat", true) == true) {// nếu báo thức là 1 lần
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { // SDK >  android 0 thì startFore
                 context?.startForegroundService(myIntent)
             } else {
                 context?.startService(myIntent)
             }
         } else {
-            if (today(intent)) {
+            if (today(intent)) { // nếu không thì kiểm tra hôm nay có trùng với ngày báo thức không
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     context?.startForegroundService(myIntent)
                 } else {

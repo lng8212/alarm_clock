@@ -34,55 +34,50 @@ class addClock : Fragment() {
     private var Sun = false
     private var once = true
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentAddClockBinding.inflate(inflater, container, false)
 
-
+        viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java) //trả về viewModel đã tồn tại từ lớp MainActivityViewModel
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
-        var nowAlarm = arguments?.getSerializable("now")
+        var nowAlarm = arguments?.getSerializable("now") // trả về clock ở nếu sửa ( click vào )
         if (nowAlarm != null) {
             check = true
             updateAlarm = nowAlarm as Time
-            nowAlarm.cancelAlarm(view.context)
+            nowAlarm.cancelAlarm(context!!) // huỷ hẹn giờ báo thức
 
         } else {
         }
         binding.btnCancel.setOnClickListener() {
             check = false
             Navigation.findNavController(binding.root)
-                .navigate(R.id.action_fragment_add_clock_to_mainFragment)
+                .navigate(R.id.action_fragment_add_clock_to_mainFragment) // trả về trang chính nếu k tạo mới
         }
         binding.btnDone.setOnClickListener() {
             getTime()
             check = false
             Navigation.findNavController(binding.root)
-                .navigate(R.id.action_fragment_add_clock_to_mainFragment)
+                .navigate(R.id.action_fragment_add_clock_to_mainFragment) // trả về trang chính (tạo mới clock)
         }
         frequent = "Một lần"
         binding.btnFrequently.setOnClickListener() {
-            val mDialogView = LayoutInflater.from(context).inflate(R.layout.repeat, null)
-            val mBuilder = AlertDialog.Builder(context).setView(mDialogView)
-            val mAlertDialog = mBuilder.show()
-            mAlertDialog.window?.setGravity(Gravity.BOTTOM)
+            val mDialogView = LayoutInflater.from(context).inflate(R.layout.repeat, null)  // tạo view với layout repeat
+            val mBuilder = AlertDialog.Builder(context).setView(mDialogView)      //tạo AlertDialog với view là layout repeat
+            val mAlertDialog = mBuilder.show()              // show lên màn hình
+            mAlertDialog.window?.setGravity(Gravity.BOTTOM) // set gravity ở dưới
 
             mDialogView.txt_motlan.setOnClickListener() {
                 once = true
                 frequent = mDialogView.txt_motlan.text.toString()
                 binding.frequently.text = frequent
-                mAlertDialog.dismiss()
+                mAlertDialog.dismiss() // huỷ AlertDialog
 
 
             }
@@ -114,7 +109,7 @@ class addClock : Fragment() {
             }
             mDialogView.txt_tuychinh.setOnClickListener() {
                 once = false
-                val DialogView = LayoutInflater.from(context).inflate(R.layout.options, null)
+                val DialogView = LayoutInflater.from(context).inflate(R.layout.options, null) // tạo view với layout options
                 val Builder = AlertDialog.Builder(context).setView(DialogView)
                 mAlertDialog.dismiss()
                 val AlertDialog = Builder.show()
@@ -154,7 +149,7 @@ class addClock : Fragment() {
                         Sun = true
                     }
                     Log.d("TAG", "value: " + date)
-                    frequent = date.trim()
+                    frequent = date.trim() // loại bỏ khoảng trắng thừa 2 đầu
                     binding.frequently.text = frequent
                     AlertDialog.dismiss()
                 }
@@ -169,7 +164,7 @@ class addClock : Fragment() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             hour = (if (timePicker.hour >= 10) timePicker.hour.toString()
             else ("0" + timePicker.hour.toString())) + ":" + (if (timePicker.minute >= 10) timePicker.minute.toString()
-            else ("0" + timePicker.minute.toString()))
+            else ("0" + timePicker.minute.toString()))        // chuẩn hoá về dạng hh:mm
         } else hour = "00:00"
         val time = com.example.alarmclock.database.Time(
             hour.trim(),
@@ -186,10 +181,10 @@ class addClock : Fragment() {
             TimeDatabase.stt++
         )
         if (check == true) {
-            viewModel.deleteTimes(updateAlarm)
+            viewModel.deleteTimes(updateAlarm) // nếu là sửa báo thức thì xoá nó đi và thêm cái mới
         }
-        viewModel.insertTimes(time)
-        this.context?.let { time.schedule(it) }
+        viewModel.insertTimes(time) // thêm vào database
+        this.context?.let { time.schedule(it) } // lên lịch báo thức
 
     }
 

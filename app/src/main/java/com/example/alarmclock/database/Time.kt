@@ -38,7 +38,7 @@ data class Time(
     fun schedule(context: Context) {
         val hour = (this.hour[0].toString() + this.hour[1].toString()).toInt()
         val minute = (this.hour[3].toString() + this.hour[4].toString()).toInt()
-        var calendar = Calendar.getInstance().apply {
+        var calendar = Calendar.getInstance().apply { // set time cho calendar
             timeInMillis = System.currentTimeMillis()
             set(Calendar.HOUR_OF_DAY, hour)
             set(Calendar.MINUTE, minute)
@@ -48,7 +48,7 @@ data class Time(
         Log.e("hour", this.hour[0].toString() + this.hour[1].toString())
         Log.e("minute", this.hour[3].toString() + this.hour[4].toString())
 
-        var intent = Intent(context, AlarmReceiver::class.java)
+        var intent = Intent(context, AlarmReceiver::class.java) //put data qua Receiver
         intent.putExtra("handleAlarm", "on")
         intent.putExtra("Repeat", this.once)
         intent.putExtra("Mon", this.Mon)
@@ -59,16 +59,16 @@ data class Time(
         intent.putExtra("Sat", this.Sat)
         intent.putExtra("Sun", this.Sun)
         var pendingIntent =
-            PendingIntent.getBroadcast(context, this.id, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+            PendingIntent.getBroadcast(context, this.id, intent, PendingIntent.FLAG_UPDATE_CURRENT)// pending intent ( cho phép nhưng application ở ngoài có quyền thực thi 1 đoạn mã cho trước)
         val alarmManager =
-            context.applicationContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            context.applicationContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager //gọi Service Alarm
         Log.e("Once", this.once.toString())
         if (this.once == false) {
             Log.e("vào đây", "111")
             alarmManager.setRepeating(
-                AlarmManager.RTC_WAKEUP,
+                AlarmManager.RTC_WAKEUP, //đánh thức thiết bị click hoạt pending intent vào thời gian chỉ định
                 calendar.timeInMillis,
-                AlarmManager.INTERVAL_DAY,
+                AlarmManager.INTERVAL_DAY,// lặp lại hàng ngày
                 pendingIntent
             )
         } else {
@@ -83,6 +83,6 @@ data class Time(
             PendingIntent.getBroadcast(context, this.id, intent, PendingIntent.FLAG_UPDATE_CURRENT)
         val alarmManager =
             context.applicationContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmManager.cancel(pendingIntent)
+        alarmManager.cancel(pendingIntent) //huỷ alarm
     }
 }

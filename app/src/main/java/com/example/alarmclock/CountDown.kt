@@ -48,9 +48,9 @@ class CountDown : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.timeCountdown.setIs24HourView(true)
         binding.timeCountdown.hour = 0
-        binding.timeCountdown.minute = 0
+        binding.timeCountdown.minute = 10
         binding.btnBaothuc2.setOnClickListener(){
-            Navigation.findNavController(binding.root).navigate(R.id.action_countDown_to_mainFragment)
+            Navigation.findNavController(binding.root).navigate(R.id.action_countDown_to_mainFragment) // về mainFragment
         }
         binding.btnPlay.setOnClickListener(){
             val h =binding.timeCountdown.hour
@@ -74,7 +74,7 @@ class CountDown : Fragment() {
             stopTime()
         }
     }
-    private fun hideMyKeyBoard(){
+    private fun hideMyKeyBoard(){ // ẩn bàn phím ảo
          if(view!= null){
              val hideMe = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
              hideMe.hideSoftInputFromWindow(view!!.windowToken,0)
@@ -84,13 +84,13 @@ class CountDown : Fragment() {
 
     private fun startTime() {
         endTime = System.currentTimeMillis() + start
-        countDown = object :CountDownTimer(start,1000){
-            override fun onTick(millisUntilFinished: Long) {
+        countDown = object :CountDownTimer(start,1000){ //countDownInterval 1000: cứ 1 s thì onTick callback 1 lần.
+            override fun onTick(millisUntilFinished: Long) { // callback trong khoảng thời gian đều dặn.
                 start = millisUntilFinished
                 updateCountDownText();
             }
 
-            override fun onFinish() {
+            override fun onFinish() { // được gọi khi hết thời gian
                 isStopped = true
                 running = false
                 updateButtons()
@@ -138,7 +138,7 @@ class CountDown : Fragment() {
                 binding.btnPause.visibility = View.GONE
                 binding.timeLeft.visibility = View.GONE
                 binding.timeCountdown.hour = 0
-                binding.timeCountdown.minute = 0
+                binding.timeCountdown.minute = 10
             } else {
                 countDown?.cancel()
                 binding.btnPause.visibility = View.GONE
@@ -156,12 +156,12 @@ class CountDown : Fragment() {
 
     override fun onStop() {
         super.onStop()
-        val prefs = context!!.getSharedPreferences("prefs", MODE_PRIVATE)
+        val prefs = context!!.getSharedPreferences("prefs", MODE_PRIVATE)  //Preferences: lưu data dưới dạng key-value trên disk.
         val editor = prefs.edit()
         editor.putLong("millisLeft",start)
         editor.putBoolean("timerRunning",running)
         editor.putLong("endTime",endTime)
-        editor.apply()
+        editor.apply()// dùng apply (bất đồng bộ), dùng commit (đồng bộ nhưng nên tránh hạn chế sử dụng từ luồng chính vì sẽ ảnh hưởng đến hiển thị UI
     }
     override fun onStart() {
         super.onStart()

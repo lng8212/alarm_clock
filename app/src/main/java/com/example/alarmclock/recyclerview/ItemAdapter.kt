@@ -53,7 +53,7 @@ class ItemAdapter(var data: List<Time>, var viewModel: MainActivityViewModel) :
             var bundle = Bundle()
             bundle.putSerializable("now", data[position])
             item.itemView.findNavController()
-                .navigate(R.id.action_mainFragment_to_fragment_add_clock, bundle)
+                .navigate(R.id.action_mainFragment_to_fragment_add_clock, bundle) // gửi data[position] đến fragment addClock
         }
         item.itemView.setOnLongClickListener {
             viewModel.deleteTimes(data[position])

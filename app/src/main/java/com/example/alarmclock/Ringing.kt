@@ -24,8 +24,8 @@ class Ringing : AppCompatActivity() {
         btnOff.setOnClickListener() {
             var intentService = Intent(applicationContext, AlarmReceiver::class.java)
             intentService.putExtra("handleAlarm", "off")
-            applicationContext.sendBroadcast(intentService)
-            finish()
+            applicationContext.sendBroadcast(intentService) //gửi tín hiệu handleAlarm = off đến AlarmReceiver
+            finish() // kết thúc activity
         }
         btnDelay.setOnClickListener() {
             var calendar = Calendar.getInstance()
@@ -53,7 +53,7 @@ class Ringing : AppCompatActivity() {
                 false,
                 TimeDatabase.stt++
             )
-            newAlarm.schedule(this)
+            newAlarm.schedule(this) // tạo clock mới và lên lịch cho nó rung sau 5p
             applicationContext.sendBroadcast(intentService)
             finish()
         }

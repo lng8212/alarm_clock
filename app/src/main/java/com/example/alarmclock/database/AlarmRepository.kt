@@ -3,7 +3,7 @@ package com.example.alarmclock.database
 import androidx.lifecycle.LiveData
 
 class AlarmRepository(private var timeDao: TimeDAO) {
-    var  data: LiveData<List<Time>> = timeDao.getAll()
+    var  data: LiveData<List<Time>> = timeDao.getAll() // list livedata
 
     suspend fun insertTimes(entity: Time){
         timeDao.insert(entity)

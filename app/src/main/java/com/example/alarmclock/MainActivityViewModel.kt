@@ -23,13 +23,13 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     fun insertTimes(entity: Time) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) { //dispatchers.IO để tối ưu việc chạy ngoài luồng chính
             alarmRepository.insertTimes(entity)
         }
     }
 
     fun updateTimes(entity: Time) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {//viewmodelscope tự động huỷ bất kỉ coroutine nào mà khỏi động bởi viewmodel mà khi viewmodel bị huỷ
             alarmRepository.updateTimes(entity)
         }
 
