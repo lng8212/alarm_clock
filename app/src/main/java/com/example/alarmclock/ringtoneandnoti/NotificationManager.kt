@@ -22,12 +22,12 @@ import com.example.alarmclock.Ringing
 class NotificationManager : Service() {
     val CHANNEL_ID = "ALARM CHANNEL"
     var id: Int = 0
-
+    var mediaPlayer :MediaPlayer? = null
 
     @SuppressLint("WrongConstant")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        var mediaPlayer = MediaPlayer.create(this, R.raw.clock) //tạo mediaPlayer
+       //tạo mediaPlayer
         var handleAlarm: String? = intent?.extras?.getString("handleAlarm") // get handleAlarm (on/off)
         val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager // tạo notificationChannel
         notificationManager.createNotificationChannel(
@@ -38,13 +38,15 @@ class NotificationManager : Service() {
 
             )
         )
+
         if (handleAlarm == "on") {
             id = 1
         } else if (handleAlarm == "off") {
             id = 0
         }
         if (id == 1) {
-
+            mediaPlayer = MediaPlayer.create(this, R.raw.clock)
+            mediaPlayer?.isLooping = true
             var notifyIntent = Intent(this, Ringing::class.java) //tạo intent đến Ringing
             val notifyPendingIntent = PendingIntent.getActivity(this, 0, notifyIntent, 0)
             val notification = NotificationCompat.Builder(this, CHANNEL_ID) //tạo thông báo
@@ -52,17 +54,13 @@ class NotificationManager : Service() {
                 .setContentTitle("Báo thức")
                 .setContentText("WAKE UP NOW!!!")
                 .setContentIntent(notifyPendingIntent)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
             with(NotificationManagerCompat.from(this)) {
                 notify(101, notification.build())
             }
-
-            mediaPlayer.isLooping = true
-            mediaPlayer.start()
-            id = 0
+            mediaPlayer?.start()
         } else if (id == 0) {
-            mediaPlayer.stop()
-            mediaPlayer.reset()
+            mediaPlayer?.stop()
+            mediaPlayer?.reset()
         }
         return START_STICKY // yêu cầu hệ thống tạo lại service khi bị OS huỷ lúc quá tải.
 
@@ -73,5 +71,10 @@ class NotificationManager : Service() {
         TODO("Not yet implemented")
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        mediaPlayer?.release()
+        mediaPlayer = null
+    }
 
 }
