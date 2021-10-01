@@ -22,12 +22,17 @@ import com.example.alarmclock.Ringing
 class NotificationManager : Service() {
     val CHANNEL_ID = "ALARM CHANNEL"
     var id: Int = 0
-    var mediaPlayer :MediaPlayer? = null
+    lateinit var mediaPlayer: MediaPlayer
+    override fun onBind(intent: Intent?): IBinder? {
+        TODO("Not yet implemented")
+    }
 
     @SuppressLint("WrongConstant")
     @RequiresApi(Build.VERSION_CODES.O)
+
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
        //tạo mediaPlayer
+        mediaPlayer = MediaPlayer.create(this, R.raw.clock)
         var handleAlarm: String? = intent?.extras?.getString("handleAlarm") // get handleAlarm (on/off)
         val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager // tạo notificationChannel
         notificationManager.createNotificationChannel(
@@ -45,8 +50,8 @@ class NotificationManager : Service() {
             id = 0
         }
         if (id == 1) {
-            mediaPlayer = MediaPlayer.create(this, R.raw.clock)
-            mediaPlayer?.isLooping = true
+
+            mediaPlayer.isLooping = true
             var notifyIntent = Intent(this, Ringing::class.java) //tạo intent đến Ringing
             val notifyPendingIntent = PendingIntent.getActivity(this, 0, notifyIntent, 0)
             val notification = NotificationCompat.Builder(this, CHANNEL_ID) //tạo thông báo
@@ -57,24 +62,19 @@ class NotificationManager : Service() {
             with(NotificationManagerCompat.from(this)) {
                 notify(101, notification.build())
             }
-            mediaPlayer?.start()
+            mediaPlayer.start()
         } else if (id == 0) {
-            mediaPlayer?.stop()
-            mediaPlayer?.reset()
+            mediaPlayer.stop()
+            mediaPlayer.reset()
         }
         return START_STICKY // yêu cầu hệ thống tạo lại service khi bị OS huỷ lúc quá tải.
 
     }
 
-
-    override fun onBind(intent: Intent?): IBinder? {
-        TODO("Not yet implemented")
-    }
-
     override fun onDestroy() {
         super.onDestroy()
-        mediaPlayer?.release()
-        mediaPlayer = null
+        mediaPlayer.stop()
+        mediaPlayer.release()
     }
 
 }
