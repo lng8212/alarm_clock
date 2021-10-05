@@ -52,6 +52,8 @@ class addClock : Fragment() {
         if (nowAlarm != null) {
             check = false
             updateAlarm = nowAlarm as Time
+            binding.btnAddAlarm.visibility = View.INVISIBLE
+            binding.txtFix.visibility = View.VISIBLE
 
 
         }
