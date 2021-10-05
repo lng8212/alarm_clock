@@ -21,8 +21,8 @@ import com.example.alarmclock.Ringing
 
 class NotificationManager : Service() {
     val CHANNEL_ID = "ALARM CHANNEL"
-    var id: Int = 0
     lateinit var mediaPlayer: MediaPlayer
+    var id:Int =0
     override fun onBind(intent: Intent?): IBinder? {
         TODO("Not yet implemented")
     }
@@ -33,46 +33,42 @@ class NotificationManager : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
        //tạo mediaPlayer
         mediaPlayer = MediaPlayer.create(this, R.raw.clock)
-        var handleAlarm: String? = intent?.extras?.getString("handleAlarm") // get handleAlarm (on/off)
-        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager // tạo notificationChannel
-        notificationManager.createNotificationChannel(
-            NotificationChannel(
-                CHANNEL_ID,
-                "Notification",
-                NotificationManager.IMPORTANCE_HIGH
-
-            )
-        )
-
-        if (handleAlarm == "on") {
-            id = 1
-        } else if (handleAlarm == "off") {
-            id = 0
+        var handleAlarm:String? = intent?.extras?.getString("handleAlarm")
+        if(handleAlarm == "on") {
+            id =1
         }
-        if (id == 1) {
+        else if(handleAlarm=="off"){
+            id=0
+        }
 
+        if(id==1) {
             mediaPlayer.isLooping = true
             var notifyIntent = Intent(this, Ringing::class.java) //tạo intent đến Ringing
             val notifyPendingIntent = PendingIntent.getActivity(this, 0, notifyIntent, 0)
-            val notification = NotificationCompat.Builder(this, CHANNEL_ID) //tạo thông báo
+            val notification: Notification = Notification.Builder(this, CHANNEL_ID) //tạo thông báo
                 .setSmallIcon(R.drawable.ic_baseline_access_alarms_24)
                 .setContentTitle("Báo thức")
                 .setContentText("WAKE UP NOW!!!")
                 .setContentIntent(notifyPendingIntent)
-            with(NotificationManagerCompat.from(this)) {
-                notify(101, notification.build())
-            }
+                .build()
+            startForeground(101,notification)
             mediaPlayer.start()
-        } else if (id == 0) {
+            id = 0
+        }
+        else if(id==0)
+        {
             mediaPlayer.stop()
             mediaPlayer.reset()
+            stopForeground(true)
+
         }
-        return START_STICKY // yêu cầu hệ thống tạo lại service khi bị OS huỷ lúc quá tải.
+        return START_NOT_STICKY // yêu cầu hệ thống tạo lại service khi bị OS huỷ lúc quá tải.
 
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        stopForeground(true)
         mediaPlayer.stop()
         mediaPlayer.release()
     }

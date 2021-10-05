@@ -22,15 +22,16 @@ class Ringing : AppCompatActivity() {
         btnOff = binding.btnOff
         btnDelay = binding.btnDelay
         btnOff.setOnClickListener() {
-            var intentService = Intent(applicationContext, AlarmReceiver::class.java)
-            intentService.putExtra("handleAlarm", "off")
-            applicationContext.sendBroadcast(intentService) //gửi tín hiệu handleAlarm = off đến AlarmReceiver
+            var intentService: Intent = Intent(applicationContext, AlarmReceiver::class.java)
+            intentService.putExtra("handleAlarm","off")
+            applicationContext.sendBroadcast(intentService)
             finish() // kết thúc activity
         }
         btnDelay.setOnClickListener() {
             var calendar = Calendar.getInstance()
-            var intentService = Intent(applicationContext, AlarmReceiver::class.java)
-            intentService.putExtra("handleAlarm", "off")
+            var intentService: Intent = Intent(applicationContext, AlarmReceiver::class.java)
+            intentService.putExtra("handleAlarm","off")
+            applicationContext.sendBroadcast(intentService)
             var hour = calendar.get(Calendar.HOUR_OF_DAY)
             var minute = calendar.get(Calendar.MINUTE)
             if (minute < 55) minute += 5
@@ -53,8 +54,7 @@ class Ringing : AppCompatActivity() {
                 false,
                 System.currentTimeMillis().toInt()
             )
-            newAlarm.schedule(this) // tạo clock mới và lên lịch cho nó rung sau 5p
-            applicationContext.sendBroadcast(intentService)
+            newAlarm.schedule(applicationContext) // tạo clock mới và lên lịch cho nó rung sau 5p
             finish()
         }
     }
