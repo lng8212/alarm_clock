@@ -51,7 +51,7 @@ class Ringing : AppCompatActivity() {
                 false,
                 false,
                 false,
-                TimeDatabase.stt++
+                System.currentTimeMillis().toInt()
             )
             newAlarm.schedule(this) // tạo clock mới và lên lịch cho nó rung sau 5p
             applicationContext.sendBroadcast(intentService)

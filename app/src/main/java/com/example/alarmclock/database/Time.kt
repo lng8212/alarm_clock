@@ -44,7 +44,7 @@ data class Time(
             set(Calendar.MINUTE, minute)
             set(Calendar.SECOND, 0)
         }
-        Log.e("id", this.id.toString())
+        Log.e("id schedule", id.toString())
         Log.e("hour", this.hour[0].toString() + this.hour[1].toString())
         Log.e("minute", this.hour[3].toString() + this.hour[4].toString())
 
@@ -59,9 +59,9 @@ data class Time(
         intent.putExtra("Sat", this.Sat)
         intent.putExtra("Sun", this.Sun)
         var pendingIntent =
-            PendingIntent.getBroadcast(context, this.id, intent, PendingIntent.FLAG_UPDATE_CURRENT)// pending intent ( cho phép nhưng application ở ngoài có quyền thực thi 1 đoạn mã cho trước)
+            PendingIntent.getBroadcast(context, id, intent, PendingIntent.FLAG_UPDATE_CURRENT)// pending intent ( cho phép nhưng application ở ngoài có quyền thực thi 1 đoạn mã cho trước)
         val alarmManager =
-            context.applicationContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager //gọi Service Alarm
+            context.getSystemService(Context.ALARM_SERVICE) as AlarmManager //gọi Service Alarm
         Log.e("Once", this.once.toString())
         if (this.once == false) {
             Log.e("vào đây", "111")

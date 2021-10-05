@@ -1,6 +1,7 @@
 package com.example.alarmclock.recyclerview
 
 import android.app.AlertDialog
+import android.content.Context
 import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
@@ -28,6 +29,7 @@ import java.util.*
 
 class ItemAdapter(var data: List<Time>, var viewModel: MainActivityViewModel) :
     RecyclerView.Adapter<ItemAdapter.ViewHolder>() {
+    lateinit var context:Context
     lateinit var binding: ItemBinding
 
     inner class ViewHolder(val binding: ItemBinding) :
@@ -41,6 +43,7 @@ class ItemAdapter(var data: List<Time>, var viewModel: MainActivityViewModel) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         binding = ItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        context = parent.context
         return ViewHolder(binding)
     }
 
@@ -57,6 +60,7 @@ class ItemAdapter(var data: List<Time>, var viewModel: MainActivityViewModel) :
         }
         item.itemView.setOnLongClickListener {
             viewModel.deleteTimes(data[position])
+            data[position].cancelAlarm(context)
             return@setOnLongClickListener true
         }
     }

@@ -52,6 +52,9 @@ class CountDown : Fragment() {
         binding.btnBaothuc2.setOnClickListener(){
             Navigation.findNavController(binding.root).navigate(R.id.action_countDown_to_mainFragment) // về mainFragment
         }
+        val sharedPreferences = this.activity?.getSharedPreferences("pref", MODE_PRIVATE)
+        var start = sharedPreferences?.getLong("time left", 0)
+        var endTime = sharedPreferences?.getLong("last active",0)
         binding.btnPlay.setOnClickListener(){
             val h =binding.timeCountdown.hour
             val m = binding.timeCountdown.minute

@@ -9,12 +9,14 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.example.alarmclock.database.Time
 import com.example.alarmclock.database.TimeDatabase
 import com.example.alarmclock.databinding.FragmentAddClockBinding
+import kotlinx.android.synthetic.main.fragment_add_clock.*
 import kotlinx.android.synthetic.main.options.*
 import kotlinx.android.synthetic.main.repeat.view.*
 
@@ -23,7 +25,6 @@ class addClock : Fragment() {
     private lateinit var binding: FragmentAddClockBinding
     private lateinit var viewModel: MainActivityViewModel
     private lateinit var frequent: String
-    private var check = false
     private lateinit var updateAlarm: Time
     private var Mon = false
     private var Tue = false
@@ -33,7 +34,7 @@ class addClock : Fragment() {
     private var Sat = false
     private var Sun = false
     private var once = true
-
+    private var check = true
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -49,20 +50,17 @@ class addClock : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         var nowAlarm = arguments?.getSerializable("now") // trả về clock ở nếu sửa ( click vào )
         if (nowAlarm != null) {
-            check = true
+            check = false
             updateAlarm = nowAlarm as Time
-            nowAlarm.cancelAlarm(context!!) // huỷ hẹn giờ báo thức
 
-        } else {
+
         }
         binding.btnCancel.setOnClickListener() {
-            check = false
             Navigation.findNavController(binding.root)
                 .navigate(R.id.action_fragment_add_clock_to_mainFragment) // trả về trang chính nếu k tạo mới
         }
         binding.btnDone.setOnClickListener() {
             getTime()
-            check = false
             Navigation.findNavController(binding.root)
                 .navigate(R.id.action_fragment_add_clock_to_mainFragment) // trả về trang chính (tạo mới clock)
         }
@@ -166,25 +164,45 @@ class addClock : Fragment() {
             else ("0" + timePicker.hour.toString())) + ":" + (if (timePicker.minute >= 10) timePicker.minute.toString()
             else ("0" + timePicker.minute.toString()))        // chuẩn hoá về dạng hh:mm
         } else hour = "00:00"
-        val time = com.example.alarmclock.database.Time(
-            hour.trim(),
-            frequent,
-            true,
-            once,
-            Mon,
-            Tue,
-            Wed,
-            Thu,
-            Fri,
-            Sat,
-            Sun,
-            TimeDatabase.stt++
-        )
-        if (check == true) {
-            viewModel.deleteTimes(updateAlarm) // nếu là sửa báo thức thì xoá nó đi và thêm cái mới
+        val time: com.example.alarmclock.database.Time
+        if(check == true){
+            time = com.example.alarmclock.database.Time(
+                hour.trim(),
+                frequent,
+                true,
+                once,
+                Mon,
+                Tue,
+                Wed,
+                Thu,
+                Fri,
+                Sat,
+                Sun,
+                System.currentTimeMillis().toInt()
+            )
+            viewModel.insertTimes(time) // thêm vào database
+            this.context?.let { time.schedule(it) } // lên lịch báo thức
         }
-        viewModel.insertTimes(time) // thêm vào database
-        this.context?.let { time.schedule(it) } // lên lịch báo thức
+        else{
+            time = com.example.alarmclock.database.Time(
+                hour.trim(),
+                frequent,
+                true,
+                once,
+                Mon,
+                Tue,
+                Wed,
+                Thu,
+                Fri,
+                Sat,
+                Sun,
+               updateAlarm.id
+            )
+            viewModel.updateTimes(time) // thêm vào database
+            updateAlarm.cancelAlarm(context!!) // huỷ hẹn giờ báo thức
+            this.context?.let { time.schedule(it) } // lên lịch báo thức
+        }
+
 
     }
 
