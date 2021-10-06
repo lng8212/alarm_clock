@@ -1,4 +1,4 @@
-package com.example.alarmclock
+package com.example.alarmclock.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,9 +9,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.alarmclock.R
 import com.example.alarmclock.databinding.FragmentMainBinding
 import com.example.alarmclock.recyclerview.ItemAdapter
-import java.time.Clock
+import com.example.alarmclock.viewmodel.MainActivityViewModel
 
 
 class mainFragment : Fragment() {

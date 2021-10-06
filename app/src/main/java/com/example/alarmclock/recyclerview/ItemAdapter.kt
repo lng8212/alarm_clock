@@ -1,29 +1,17 @@
 package com.example.alarmclock.recyclerview
 
-import android.app.AlertDialog
 import android.content.Context
-import android.opengl.Visibility
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageButton
 import android.widget.Switch
 import android.widget.TextView
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.example.alarmclock.MainActivityViewModel
+import com.example.alarmclock.viewmodel.MainActivityViewModel
 import com.example.alarmclock.R
 import com.example.alarmclock.database.Time
-import com.example.alarmclock.databinding.FragmentMainBinding
 import com.example.alarmclock.databinding.ItemBinding
-import com.example.alarmclock.mainFragment
 import java.util.*
 
 

@@ -1,11 +1,9 @@
-package com.example.alarmclock
+package com.example.alarmclock.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
-import com.example.alarmclock.database.TimeDatabase
 import com.example.alarmclock.databinding.ActivityRingingBinding
 import com.example.alarmclock.ringtoneandnoti.AlarmReceiver
 import java.util.*

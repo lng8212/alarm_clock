@@ -1,32 +1,23 @@
 package com.example.alarmclock.ringtoneandnoti
 
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.media.RingtoneManager
 import android.os.Build
 import android.util.Log
-import android.widget.Toast
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
-import com.example.alarmclock.MainActivity
-import com.example.alarmclock.R
-import com.example.alarmclock.mainFragment
 import java.util.*
 
 class AlarmReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) { // khi nhận đc pendingintent
         Log.e("Receiver", "Came")
         var handleAlarm : String? = intent?.extras?.getString("handleAlarm")
-        var myIntent = Intent(context, com.example.alarmclock.ringtoneandnoti.NotificationManager::class.java)
-        myIntent.putExtra("handleAlarm",handleAlarm)
+        var myIntent = Intent(context,AlarmService::class.java)
+        Log.e("handleAlarm",handleAlarm.toString())
+        myIntent.putExtra("handleAlarm1",handleAlarm)
         if (intent?.getBooleanExtra("Repeat", true) == true) {// nếu báo thức là 1 lần
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { // SDK >  android 0 thì startFore
                 context?.startForegroundService(myIntent)
+
             } else {
                 context?.startService(myIntent)
             }

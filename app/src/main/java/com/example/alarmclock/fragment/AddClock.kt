@@ -1,6 +1,5 @@
-package com.example.alarmclock
+package com.example.alarmclock.fragment
 
-import android.app.AlarmManager
 import android.app.AlertDialog
 import android.os.Build
 import android.os.Bundle
@@ -9,14 +8,13 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import com.example.alarmclock.R
 import com.example.alarmclock.database.Time
-import com.example.alarmclock.database.TimeDatabase
 import com.example.alarmclock.databinding.FragmentAddClockBinding
-import kotlinx.android.synthetic.main.fragment_add_clock.*
+import com.example.alarmclock.viewmodel.MainActivityViewModel
 import kotlinx.android.synthetic.main.options.*
 import kotlinx.android.synthetic.main.repeat.view.*
 
@@ -166,9 +164,9 @@ class addClock : Fragment() {
             else ("0" + timePicker.hour.toString())) + ":" + (if (timePicker.minute >= 10) timePicker.minute.toString()
             else ("0" + timePicker.minute.toString()))        // chuẩn hoá về dạng hh:mm
         } else hour = "00:00"
-        val time: com.example.alarmclock.database.Time
+        val time: Time
         if(check == true){
-            time = com.example.alarmclock.database.Time(
+            time = Time(
                 hour.trim(),
                 frequent,
                 true,
@@ -186,7 +184,7 @@ class addClock : Fragment() {
             this.context?.let { time.schedule(it) } // lên lịch báo thức
         }
         else{
-            time = com.example.alarmclock.database.Time(
+            time = Time(
                 hour.trim(),
                 frequent,
                 true,

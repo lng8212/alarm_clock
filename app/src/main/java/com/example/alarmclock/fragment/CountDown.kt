@@ -1,34 +1,22 @@
-package com.example.alarmclock
+package com.example.alarmclock.fragment
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.os.SharedMemory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.TextView
-import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.example.alarmclock.databinding.FragmentCountDownBinding
-import com.example.alarmclock.databinding.FragmentMainBinding
-import kotlinx.android.synthetic.main.item.*
 import java.lang.Exception
-import androidx.core.content.ContextCompat.getSystemService
-
-
-
+import com.example.alarmclock.R
 
 
 class CountDown : Fragment() {
-    private lateinit var binding: FragmentCountDownBinding
+    private lateinit var binding:FragmentCountDownBinding
     private var start: Long = 0
     private var countDown: CountDownTimer? = null
     private var running: Boolean = true

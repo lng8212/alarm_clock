@@ -3,23 +3,16 @@ package com.example.alarmclock.ringtoneandnoti
 import android.annotation.SuppressLint
 import android.app.*
 import android.app.NotificationManager
-import android.content.Context
 import android.content.Intent
-import android.media.AudioAttributes
 import android.media.MediaPlayer
-import android.media.RingtoneManager
-import android.net.Uri
 import android.os.Build
 import android.os.IBinder
 import android.util.Log
 import androidx.annotation.RequiresApi
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
-import com.example.alarmclock.MainActivity
 import com.example.alarmclock.R
-import com.example.alarmclock.Ringing
+import com.example.alarmclock.activity.Ringing
 
-class NotificationManager : Service() {
+class AlarmService : Service() {
     val CHANNEL_ID = "ALARM CHANNEL"
     lateinit var mediaPlayer: MediaPlayer
     var id:Int =0
@@ -29,11 +22,21 @@ class NotificationManager : Service() {
 
     @SuppressLint("WrongConstant")
     @RequiresApi(Build.VERSION_CODES.O)
+    private fun createNotificationChannel(): String {
+        val name = "channel 1"
+        val des = "báo thức"
+        val mChannel = NotificationChannel("100",name,NotificationManager.IMPORTANCE_DEFAULT)
+            mChannel.description = des
+        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.createNotificationChannel(mChannel)
+        return "100"
 
+    }
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
        //tạo mediaPlayer
         mediaPlayer = MediaPlayer.create(this, R.raw.clock)
-        var handleAlarm:String? = intent?.extras?.getString("handleAlarm")
+        var handleAlarm:String? = intent?.extras?.getString("handleAlarm1")
         if(handleAlarm == "on") {
             id =1
         }
@@ -43,9 +46,10 @@ class NotificationManager : Service() {
 
         if(id==1) {
             mediaPlayer.isLooping = true
+            val channel_id = createNotificationChannel()
             var notifyIntent = Intent(this, Ringing::class.java) //tạo intent đến Ringing
             val notifyPendingIntent = PendingIntent.getActivity(this, 0, notifyIntent, 0)
-            val notification: Notification = Notification.Builder(this, CHANNEL_ID) //tạo thông báo
+            val notification: Notification = Notification.Builder(this, channel_id) //tạo thông báo
                 .setSmallIcon(R.drawable.ic_baseline_access_alarms_24)
                 .setContentTitle("Báo thức")
                 .setContentText("WAKE UP NOW!!!")
@@ -62,7 +66,7 @@ class NotificationManager : Service() {
             stopForeground(true)
 
         }
-        return START_NOT_STICKY // yêu cầu hệ thống tạo lại service khi bị OS huỷ lúc quá tải.
+        return START_STICKY // yêu cầu hệ thống tạo lại service khi bị OS huỷ lúc quá tải.
 
     }
 

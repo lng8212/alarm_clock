@@ -12,9 +12,9 @@
         android:roundIcon="@drawable/clock"
         android:supportsRtl="true"
         android:theme="@style/Theme.AlarmClock">
-        <activity android:name=".Ringing"></activity>
+        <activity android:name=".activity.Ringing"></activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,7 +24,7 @@
         </activity>
 
         <service
-            android:name=".ringtoneandnoti.NotificationManager"
+            android:name=".ringtoneandnoti.AlarmService"
             android:enabled="true"
             android:process=":your_service">
 
