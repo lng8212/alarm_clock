@@ -39,9 +39,11 @@ class Ringing : AppCompatActivity() {
                 minute -= 55
                 hour += 1
             }
-
+            val hourf = (if (hour >= 10) hour.toString()
+            else ("0" +hour.toString())) + ":" + (if (minute >= 10) minute.toString()
+            else ("0" +minute.toString()))
             var newAlarm = com.example.alarmclock.database.Time(
-                hour.toString() + ":" + minute.toString(),
+                hourf,
                 "",
                 false,
                 true,
