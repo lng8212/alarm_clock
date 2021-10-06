@@ -11,9 +11,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="44dp"
         android:layout_marginTop="40dp"
+        android:fontFamily="@font/cabin_variablefont"
         android:text="Thứ 2 đến thứ 6"
         android:textColor="@color/color_main"
-        android:textStyle="italic"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_hangngay" />
 
@@ -23,11 +24,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="44dp"
         android:layout_marginTop="50dp"
-        android:fontFamily="sans-serif"
+        android:fontFamily="@font/cabin_variablefont"
         android:text="Một lần"
         android:textColor="@color/color_main"
         android:textSize="14sp"
-        android:textStyle="italic"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -37,9 +38,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="44dp"
         android:layout_marginTop="40dp"
+        android:fontFamily="@font/cabin_variablefont"
         android:text="Hàng ngày"
         android:textColor="@color/color_main"
-        android:textStyle="italic"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_motlan" />
 
@@ -50,9 +52,10 @@
         android:layout_marginStart="44dp"
         android:layout_marginTop="40dp"
         android:layout_marginBottom="50dp"
+        android:fontFamily="@font/cabin_variablefont"
         android:text="Tuỳ chỉnh"
         android:textColor="@color/color_main"
-        android:textStyle="italic"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_t2t6" />

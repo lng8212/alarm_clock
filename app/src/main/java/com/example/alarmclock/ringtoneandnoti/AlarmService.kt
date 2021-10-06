@@ -19,7 +19,6 @@ class AlarmService : Service() {
     override fun onBind(intent: Intent?): IBinder? {
         TODO("Not yet implemented")
     }
-
     @SuppressLint("WrongConstant")
     @RequiresApi(Build.VERSION_CODES.O)
     private fun createNotificationChannel(): String {

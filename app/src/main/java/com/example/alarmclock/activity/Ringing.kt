@@ -12,6 +12,7 @@ class Ringing : AppCompatActivity() {
     private lateinit var binding: ActivityRingingBinding
     private lateinit var btnOff: ImageButton
     private lateinit var btnDelay: ImageButton
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRingingBinding.inflate(layoutInflater)
